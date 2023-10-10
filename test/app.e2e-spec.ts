@@ -49,4 +49,40 @@ describe('AppController (e2e)', () => {
       .expect(400)
       .expect(expectedError);
   });
+
+  it('Should fail to validate required query params', () => {
+    const expectedError = {
+      message: [
+        'code should not be null or undefined',
+        'code must be one of the following values: JO, KZ, ZM, ZW'
+      ],
+      error: 'Bad Request',
+      statusCode: 400
+    }
+    const pathParam = "AMER"
+    return request(app.getHttpServer())
+      .get(`/country/${pathParam}`)
+      .expect(400)
+      .expect(expectedError);
+  })
+
+
+  it.only("Should fail to validate query params array", () => {
+    const expectedError = {
+      message: [
+        'code should not be null or undefined',
+        'code must be one of the following values: JO, KZ, ZM, ZW'
+      ],
+      error: 'Bad Request',
+      statusCode: 400
+    }
+
+    const params = "languages=FR&languages=ENG&languages=ITA"
+    const url = `/languages?${params}`
+    console.log({ url })
+    return request(app.getHttpServer())
+      .get(url)
+      .expect(200)
+      .expect(expectedError);
+  })
 });
