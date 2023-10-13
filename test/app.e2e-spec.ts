@@ -7,13 +7,17 @@ import { AppModule } from './../src/app.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ transform: false }));
     await app.init();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   it('/ping (GET)', () => {
@@ -63,26 +67,6 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get(`/country/${pathParam}`)
       .expect(400)
-      .expect(expectedError);
-  })
-
-
-  it.only("Should fail to validate query params array", () => {
-    const expectedError = {
-      message: [
-        'code should not be null or undefined',
-        'code must be one of the following values: JO, KZ, ZM, ZW'
-      ],
-      error: 'Bad Request',
-      statusCode: 400
-    }
-
-    const params = "languages=FR&languages=ENG&languages=ITA"
-    const url = `/languages?${params}`
-    console.log({ url })
-    return request(app.getHttpServer())
-      .get(url)
-      .expect(200)
       .expect(expectedError);
   })
 });

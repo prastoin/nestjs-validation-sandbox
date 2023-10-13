@@ -18,7 +18,8 @@ export class AppController {
   }
 
   @Get("/languages")
-  getLanguage(@Query() languages: GetLanguagesQuery, @Res() res: Response) {
+  getLanguage(@Query() { languages }: GetLanguagesQuery, @Res() res: Response) {
+    console.log({ languages });
     return res.status(200).send()
   }
 }

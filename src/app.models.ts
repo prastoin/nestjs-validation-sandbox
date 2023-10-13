@@ -50,17 +50,15 @@ const languagesRecord = fromArrayToRecord([...languagesList])
 export class GetLanguagesQuery {
     @ApiProperty({
         enum: languagesRecord,
-        type: [languagesRecord]
+        isArray: true,
     })
     @Transform(({ value }) => {
-        console.log({ value })
         if (Array.isArray(value)) {
             return value
         }
-
         return value.split(",")
     })
     @IsArray()
     @IsEnum(languagesRecord, { each: true })
-    languages: LanguageLiteral
+    languages: LanguageLiteral[]
 }
