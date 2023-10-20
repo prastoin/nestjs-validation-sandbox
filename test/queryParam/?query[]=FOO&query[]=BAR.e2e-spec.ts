@@ -1,7 +1,7 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 
 describe('AppController (e2e)', () => {
     let app: INestApplication;
@@ -19,9 +19,9 @@ describe('AppController (e2e)', () => {
         await app.close();
     });
 
-    it("/languages?languages=ENG,ITA (GET) Validation passes for array of several", () => {
+    it("/languages?languages[]=ENG&languages[]=ITA (GET) Validation passes for array of several", () => {
         const expectedBody = {}
-        const params = "languages=ENG,ITA"
+        const params = "languages[]=ENG&languages[]=ITA"
         const url = `/languages?${params}`
 
         return request(app.getHttpServer())
@@ -29,9 +29,9 @@ describe('AppController (e2e)', () => {
             .expect(200, expectedBody)
     })
 
-    it("/languages?languages=ENG (GET) Validation passes for array of 1", () => {
+    it("/languages?languages[]=ENG (GET) Validation passes for array of 1", () => {
         const expectedBody = {}
-        const params = "languages=ENG"
+        const params = "languages[]=ENG"
         const url = `/languages?${params}`
 
         return request(app.getHttpServer())
@@ -39,7 +39,7 @@ describe('AppController (e2e)', () => {
             .expect(200, expectedBody)
     })
 
-    it("/languages?languages=FOO,BAR (GET) Validation fails for array of several invalid enum", () => {
+    it("/languages?languages[]=FOO&languages[]=BAR (GET) Validation fails for array of several invalid enum", () => {
         const expectedBody = {
             message: [
                 'each value in languages must be one of the following values: FRA, ENG, ITA'
@@ -47,7 +47,7 @@ describe('AppController (e2e)', () => {
             error: 'Bad Request',
             statusCode: 400
         }
-        const params = "languages=FOO,BAR"
+        const params = "languages[]=FOO&languages[]=BAR"
         const url = `/languages?${params}`
 
         return request(app.getHttpServer())
@@ -55,7 +55,7 @@ describe('AppController (e2e)', () => {
             .expect(400, expectedBody)
     })
 
-    it("/languages?languages=FOO (GET) Validation fails for array of 1 invalid enum", () => {
+    it("/languages?languages[]=FOO (GET) Validation fails for array of 1 invalid enum", () => {
         const expectedBody = {
             message: [
                 'each value in languages must be one of the following values: FRA, ENG, ITA'
@@ -63,7 +63,7 @@ describe('AppController (e2e)', () => {
             error: 'Bad Request',
             statusCode: 400
         }
-        const params = "languages=FOO"
+        const params = "languages[]=FOO"
         const url = `/languages?${params}`
 
         return request(app.getHttpServer())
