@@ -23,7 +23,7 @@ describe('AppController (e2e)', () => {
         const expectedBody = {}
         const params = "languages[]=ENG&languages[]=ITA"
         const url = `/languages?${params}`
-        console.log({ url })
+
         return request(app.getHttpServer())
             .get(url)
             .expect(200, expectedBody)
@@ -33,7 +33,7 @@ describe('AppController (e2e)', () => {
         const expectedBody = {}
         const params = "languages[]=ENG"
         const url = `/languages?${params}`
-        console.log({ url })
+
         return request(app.getHttpServer())
             .get(url)
             .expect(200, expectedBody)
@@ -49,7 +49,7 @@ describe('AppController (e2e)', () => {
         }
         const params = "languages[]=FOO&languages[]=BAR"
         const url = `/languages?${params}`
-        console.log({ url })
+
         return request(app.getHttpServer())
             .get(url)
             .expect(400, expectedBody)
@@ -65,7 +65,7 @@ describe('AppController (e2e)', () => {
         }
         const params = "languages[]=FOO"
         const url = `/languages?${params}`
-        console.log({ url })
+
         return request(app.getHttpServer())
             .get(url)
             .expect(400, expectedBody)

@@ -33,15 +33,15 @@ export class GetCountryCodeQuery {
     code: IsoCodeLiteral
 }
 
-const countryList = ["EUR", "ASIA", "AMER"] as const;
-type CountryLiteral = typeof countryList[number];
-const countryRecord = fromArrayToRecord([...countryList])
-export class GetCountryRegionParam {
+const regionList = ["EUR", "ASIA", "AMER"] as const;
+type RegionLiteral = typeof regionList[number];
+const regionRecord = fromArrayToRecord([...regionList])
+export class GetRegionParam {
     @ApiProperty({
-        enum: countryRecord
+        enum: regionRecord
     })
-    @IsEnum(countryRecord)
-    region: CountryLiteral
+    @IsEnum(regionRecord)
+    region: RegionLiteral
 }
 
 const languagesList = ["FRA", "ENG", "ITA"] as const
