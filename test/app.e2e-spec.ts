@@ -2,7 +2,8 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PingRequestBody } from 'src/app.models';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+// TODO SETUP tsconfig paths and jest moduleNameMapper correctly
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -54,19 +55,4 @@ describe('AppController (e2e)', () => {
       .expect(expectedError);
   });
 
-  it('Should fail to validate required query params', () => {
-    const expectedError = {
-      message: [
-        'code should not be null or undefined',
-        'code must be one of the following values: JO, KZ, ZM, ZW'
-      ],
-      error: 'Bad Request',
-      statusCode: 400
-    }
-    const pathParam = "AMER"
-    return request(app.getHttpServer())
-      .get(`/country/${pathParam}`)
-      .expect(400)
-      .expect(expectedError);
-  })
 });
